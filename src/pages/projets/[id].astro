@@ -1,0 +1,100 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const entries = await getCollection('projets');
+	return entries.map((entry) => ({
+		params: { id: entry.id },
+	}));
+}
+
+const { id } = Astro.params;
+const entries = await getCollection('projets');
+const entry = entries.find((e) => e.id === id);
+
+if (!entry) {
+	return Astro.redirect(`${import.meta.env.BASE_URL}`);
+}
+
+const { Content } = await render(entry);
+const { title, date, type, stack, cover, coverAlt, gallery, duration } = entry.data;
+
+const typeLabel = type === 'pro' ? 'Professionnel' : 'Personnel';
+---
+
+<Layout title={`${title} — Portfolio`} description={entry.data.excerpt}>
+	<article class="mx-auto max-w-3xl px-6 pb-24 pt-16 md:px-10 md:pt-24">
+		<nav class="mb-10 text-sm">
+			<a
+				href={`${import.meta.env.BASE_URL}`}
+				class="text-zinc-500 underline-offset-4 transition-colors hover:text-zinc-800 hover:underline"
+			>
+				← Retour
+			</a>
+		</nav>
+
+		<header class="space-y-4">
+			<div class="flex flex-wrap items-center gap-2 text-xs text-zinc-400">
+				<time datetime={date.toISOString()}>
+					{date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+				</time>
+				<span aria-hidden>·</span>
+				<span
+					class:list={[
+						'rounded-md px-2 py-0.5 font-medium',
+						type === 'pro' ? 'bg-sky-100 text-sky-900' : 'bg-emerald-50 text-emerald-900',
+					]}
+				>
+					{typeLabel}
+				</span>
+				{
+					duration ? (
+						<>
+							<span aria-hidden>·</span>
+							<span class="text-zinc-500">Durée&nbsp;: {duration}</span>
+						</>
+					) : null
+				}
+			</div>
+			<h1 class="text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl">{title}</h1>
+			<ul class="flex flex-wrap gap-2">
+				{stack.map((tag) => (
+					<li class="rounded-md bg-zinc-100 px-2.5 py-1 text-sm text-zinc-700">{tag}</li>
+				))}
+			</ul>
+		</header>
+
+		<div class="mt-10 overflow-hidden rounded-xl border border-zinc-100 bg-zinc-50">
+			<Image src={cover} alt={coverAlt} class="h-auto w-full object-contain" widths={[800, 1200]} sizes="100vw" />
+		</div>
+
+		{
+			gallery.length > 0 ? (
+				<div class="mt-8 space-y-4">
+					<h2 class="text-sm font-medium uppercase tracking-wider text-zinc-400">Galerie</h2>
+					<ul class="grid list-none gap-4 sm:grid-cols-2">
+						{gallery.map((item) => (
+							<li class="overflow-hidden rounded-lg border border-zinc-100 bg-zinc-50">
+								<Image
+									src={item.image}
+									alt={item.alt}
+									class="h-auto w-full object-contain"
+									widths={[600, 900]}
+									sizes="(min-width: 640px) 45vw, 100vw"
+								/>
+							</li>
+						))}
+					</ul>
+				</div>
+			) : null
+		}
+
+		<div
+			class="[&_a]:text-zinc-900 [&_a]:underline [&_a]:underline-offset-4 mt-12 max-w-none space-y-6 text-base leading-relaxed text-zinc-700 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-900 [&_p]:mb-4 [&_strong]:font-medium"
+		>
+			<Content />
+		</div>
+	</article>
+</Layout>

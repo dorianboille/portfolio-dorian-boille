@@ -1,17 +1,75 @@
 ---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import { ProjectShowcase, type ProjectPreview } from '@/components/projects/ProjectShowcase';
 
+const raw = await getCollection('projets');
+const sorted = [...raw].sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const projects: ProjectPreview[] = await Promise.all(
+	sorted.map(async (entry) => {
+		const cover = await getImage({
+			src: entry.data.cover,
+			width: 960,
+		});
+		const gallery = await Promise.all(
+			entry.data.gallery.map((item) => getImage({ src: item.image, width: 1400 })),
+		);
+
+		const baseUrl = import.meta.env.BASE_URL;
+		const detailUrl = baseUrl.endsWith('/')
+			? `${baseUrl}projets/${entry.id}/`
+			: `${baseUrl}/projets/${entry.id}/`;
+
+		return {
+			id: entry.id,
+			title: entry.data.title,
+			excerpt: entry.data.excerpt,
+			date: entry.data.date.toISOString(),
+			duration: entry.data.duration,
+			type: entry.data.type,
+			stack: entry.data.stack,
+			cover: {
+				src: cover.src,
+				width: Number(cover.attributes.width ?? 960),
+				height: Number(cover.attributes.height ?? 640),
+				alt: entry.data.coverAlt,
+			},
+			gallery: gallery.map((g, i) => ({
+				src: g.src,
+				width: Number(g.attributes.width ?? 1200),
+				height: Number(g.attributes.height ?? 800),
+				alt: entry.data.gallery[i].alt,
+			})),
+			detailUrl,
+		};
+	}),
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Portfolio — Ingénieur Informatique">
+	<main class="mx-auto max-w-6xl px-6 pb-24 pt-20 md:px-10 md:pt-28">
+		<header class="mx-auto max-w-2xl text-center">
+			<p class="text-sm font-medium tracking-wide text-zinc-400">Portfolio</p>
+			<h1 class="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 md:text-5xl">
+				Dorian Boille
+			</h1>
+			<p class="mt-2 text-lg text-zinc-500 md:text-xl">Ingénieur Informatique</p>
+			<p class="mx-auto mt-8 max-w-lg text-balance text-base leading-relaxed text-zinc-600">
+				Conception d’interfaces sobres et de systèmes fiables — du besoin métier à la mise en production.
+			</p>
+		</header>
+
+		<section class="mt-20 md:mt-28" aria-labelledby="projets-heading">
+			<div class="mb-10 flex flex-col gap-2 text-center md:mb-14">
+				<h2 id="projets-heading" class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-400">
+					Projets
+				</h2>
+				<p class="text-base text-zinc-600">Sélection récente — cliquez sur une carte pour plus de détails.</p>
+			</div>
+
+			<ProjectShowcase client:visible projects={projects} />
+		</section>
+	</main>
+</Layout>
