@@ -48,16 +48,14 @@ const projects: ProjectPreview[] = await Promise.all(
 );
 
 const description =
-	'Lead ingénieur IA chez Diwio, à Nantes. Responsable du comptage vélo par caméra (Python, NVIDIA, AWS) et concepteur des cartes électroniques (ESP, PoE).';
-const bio =
-	'Dorian Boille est lead ingénieur IA chez Diwio, à Nantes. Après six mois de stage de fin d’études en 2022, il est en CDI et responsable de la solution de comptage vélo par caméra, qu’il a bâtie seul pendant environ deux ans, avant une V2 (nouveau matériel et nouveau code) menée avec un second ingénieur IA. Il conçoit aussi seul les cartes électroniques.';
+	'Lead ingénieur IA chez Diwio, à Nantes. Je porte la solution de comptage vélo, du modèle de vision jusqu’aux cartes électroniques.';
 const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
 	name: 'Dorian Boille',
 	jobTitle: 'Lead ingénieur IA',
-	description: bio,
+	description,
 	email: 'dorian.boille63800@gmail.com',
 	worksFor: {
 		'@type': 'Organization',
@@ -82,14 +80,9 @@ const jsonLd = {
 				Dorian Boille
 			</h1>
 			<p class="mt-2 text-lg text-zinc-500 md:text-xl">Lead ingénieur IA · Diwio · Nantes</p>
-			<p class="mt-2 text-sm text-zinc-500">Stage de fin d’études en 2022, en CDI depuis.</p>
 			<p class="mx-auto mt-8 max-w-lg text-balance text-base leading-relaxed text-zinc-600">
-				Je suis responsable de la solution de comptage, du modèle de vision jusqu’aux cartes électroniques, que je conçois dans la même petite équipe.
+				Je porte la solution de comptage vélo, du modèle de vision jusqu’aux cartes électroniques. Je l’ai bâtie seul, puis une V2 avec un second ingénieur IA.
 			</p>
-			<section class="mx-auto mt-6 max-w-xl" aria-labelledby="a-propos-heading">
-				<h2 id="a-propos-heading" class="sr-only">À propos</h2>
-				<p class="text-balance text-base leading-relaxed text-zinc-600">{bio}</p>
-			</section>
 			<nav class="mt-8 flex flex-col items-center gap-3 text-sm font-medium sm:flex-row sm:justify-center sm:gap-6" aria-label="Contact">
 				<a
 					href="mailto:dorian.boille63800@gmail.com"
