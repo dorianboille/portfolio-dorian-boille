@@ -60,57 +60,24 @@ export function ProjectShowcase({ projects }: { projects: ProjectPreview[] }) {
 		<ul className="mx-auto grid max-w-6xl list-none grid-cols-1 gap-10 gap-y-12 md:grid-cols-2">
 			{projects.map((p) => (
 				<li key={p.id} className="group flex flex-col">
+					<div className="overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-none transition-[border-color,box-shadow] duration-150 group-hover:border-zinc-300">
 					<Dialog>
 						<DialogTrigger asChild>
 							<button
 								type="button"
-								className="text-left outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 focus-visible:ring-offset-2"
+								className="block w-full outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 focus-visible:ring-offset-2"
+								aria-label={`Aperçu : ${p.title}`}
 							>
-								<div className="overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-none transition-[border-color,box-shadow] duration-150 group-hover:border-zinc-300">
-									<div className="aspect-[4/3] w-full overflow-hidden bg-zinc-50">
-										<img
-											src={p.cover.src}
-											alt={p.cover.alt}
-											width={p.cover.width}
-											height={p.cover.height}
-											className="h-full w-full object-cover"
-											loading="lazy"
-											decoding="async"
-										/>
-									</div>
-									<div className="space-y-3 px-5 py-5">
-										<div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-											<TypeBadge type={p.type} />
-											<span className="text-xs text-zinc-400">
-												{new Date(p.date).toLocaleDateString('fr-FR', {
-													year: 'numeric',
-													month: 'short',
-												})}
-											</span>
-											{p.duration ? (
-												<span className="inline-flex items-center gap-1 text-xs text-zinc-400">
-													<Clock className="size-3 shrink-0 opacity-70" aria-hidden />
-													{p.duration}
-												</span>
-											) : null}
-										</div>
-										<h3 className="text-lg font-medium tracking-tight text-zinc-900">
-											{p.title}
-										</h3>
-										<p className="line-clamp-2 text-sm leading-relaxed text-zinc-500">
-											{p.excerpt}
-										</p>
-										<ul className="flex flex-wrap gap-1.5 pt-1">
-											{p.stack.map((tag) => (
-												<li
-													key={tag}
-													className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600"
-												>
-													{tag}
-												</li>
-											))}
-										</ul>
-									</div>
+								<div className="aspect-[4/3] w-full overflow-hidden bg-zinc-50">
+									<img
+										src={p.cover.src}
+										alt={p.cover.alt}
+										width={p.cover.width}
+										height={p.cover.height}
+										className="h-full w-full object-cover"
+										loading="lazy"
+										decoding="async"
+									/>
 								</div>
 							</button>
 						</DialogTrigger>
@@ -194,6 +161,43 @@ export function ProjectShowcase({ projects }: { projects: ProjectPreview[] }) {
 							</div>
 						</DialogContent>
 					</Dialog>
+					<div className="space-y-3 px-5 py-5">
+						<div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+							<TypeBadge type={p.type} />
+							<span className="text-xs text-zinc-400">
+								{new Date(p.date).toLocaleDateString('fr-FR', {
+									year: 'numeric',
+									month: 'short',
+								})}
+							</span>
+							{p.duration ? (
+								<span className="inline-flex items-center gap-1 text-xs text-zinc-400">
+									<Clock className="size-3 shrink-0 opacity-70" aria-hidden />
+									{p.duration}
+								</span>
+							) : null}
+						</div>
+						<h3 className="text-lg font-medium tracking-tight text-zinc-900">
+							<a
+								href={p.detailUrl}
+								className="underline-offset-4 outline-none hover:underline focus-visible:underline"
+							>
+								{p.title}
+							</a>
+						</h3>
+						<p className="line-clamp-2 text-sm leading-relaxed text-zinc-500">{p.excerpt}</p>
+						<ul className="flex flex-wrap gap-1.5 pt-1">
+							{p.stack.map((tag) => (
+								<li
+									key={tag}
+									className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600"
+								>
+									{tag}
+								</li>
+							))}
+						</ul>
+					</div>
+					</div>
 				</li>
 			))}
 		</ul>

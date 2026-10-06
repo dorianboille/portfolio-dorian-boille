@@ -4,12 +4,29 @@ import '@/styles/global.css';
 interface Props {
 	title?: string;
 	description?: string;
+	/** Chemin (avec base) ou URL absolue de l’image de partage. */
+	ogImage?: string;
+	ogType?: 'website' | 'article';
+	jsonLd?: Record<string, unknown>;
 }
 
 const {
-	title = 'Portfolio',
-	description = 'Ingénieur informatique — projets professionnels et personnels.',
+	title = 'Dorian Boille — Ingénieur informatique',
+	description = 'Conception d’interfaces sobres et de systèmes fiables — du besoin métier à la mise en production.',
+	ogImage,
+	ogType = 'website',
+	jsonLd,
 } = Astro.props;
+
+/** URL absolue uniquement si `site` est défini au build. */
+function toAbsolute(pathOrUrl: string | undefined): string | undefined {
+	if (!pathOrUrl || !Astro.site) return undefined;
+	return new URL(pathOrUrl, Astro.site).href;
+}
+
+const canonical = toAbsolute(Astro.url.pathname);
+const ogImageUrl = toAbsolute(ogImage ?? `${import.meta.env.BASE_URL}og.png`);
+const jsonLdHtml = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : undefined;
 ---
 
 <!doctype html>
@@ -21,6 +38,18 @@ const {
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		{canonical && <link rel="canonical" href={canonical} />}
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:locale" content="fr_FR" />
+		{canonical && <meta property="og:url" content={canonical} />}
+		{ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+		{jsonLdHtml && <script type="application/ld+json" set:html={jsonLdHtml} />}
 	</head>
 	<body class="min-h-screen bg-[#ffffff] text-foreground antialiased">
 		<slot />

@@ -1,0 +1,84 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Resolve site URL
+        id: site
+        shell: bash
+        env:
+          OVERRIDE_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          OVERRIDE_BASE_PATH: ${{ vars.PUBLIC_BASE_PATH }}
+        run: |
+          set -euo pipefail
+          OWNER="${GITHUB_REPOSITORY_OWNER}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+          if [[ "$REPO" == *.github.io ]]; then
+            SITE_URL="https://${OWNER}.github.io"
+            BASE_PATH="/"
+          else
+            SITE_URL="https://${OWNER}.github.io"
+            BASE_PATH="/${REPO}/"
+          fi
+          # Domaine perso : remplace le calcul. Le site est servi à la racine,
+          # sauf si PUBLIC_BASE_PATH est aussi défini.
+          if [[ -n "${OVERRIDE_SITE_URL}" ]]; then
+            SITE_URL="${OVERRIDE_SITE_URL%/}"
+            BASE_PATH="/"
+          fi
+          if [[ -n "${OVERRIDE_BASE_PATH}" ]]; then
+            BASE_PATH="${OVERRIDE_BASE_PATH}"
+            [[ "$BASE_PATH" != /* ]] && BASE_PATH="/${BASE_PATH}"
+            [[ "$BASE_PATH" != */ ]] && BASE_PATH="${BASE_PATH}/"
+          fi
+          echo "site_url=${SITE_URL}" >> "$GITHUB_OUTPUT"
+          echo "base_path=${BASE_PATH}" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_SITE_URL: ${{ steps.site.outputs.site_url }}
+          PUBLIC_BASE_PATH: ${{ steps.site.outputs.base_path }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

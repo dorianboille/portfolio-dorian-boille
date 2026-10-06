@@ -1,6 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -20,11 +20,29 @@ if (!entry) {
 
 const { Content } = await render(entry);
 const { title, date, type, stack, cover, coverAlt, gallery, duration } = entry.data;
+const ogCover = await getImage({ src: cover, width: 1200 });
 
 const typeLabel = type === 'pro' ? 'Professionnel' : 'Personnel';
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'CreativeWork',
+	name: title,
+	description: entry.data.excerpt,
+	datePublished: date.toISOString(),
+	author: {
+		'@type': 'Person',
+		name: 'Dorian Boille',
+	},
+};
 ---
 
-<Layout title={`${title} — Portfolio`} description={entry.data.excerpt}>
+<Layout
+	title={`${title} — Dorian Boille`}
+	description={entry.data.excerpt}
+	ogImage={ogCover.src}
+	ogType="article"
+	jsonLd={jsonLd}
+>
 	<article class="mx-auto max-w-3xl px-6 pb-24 pt-16 md:px-10 md:pt-24">
 		<nav class="mb-10 text-sm">
 			<a

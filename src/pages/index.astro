@@ -46,9 +46,21 @@ const projects: ProjectPreview[] = await Promise.all(
 		};
 	}),
 );
+
+const description =
+	'Conception d’interfaces sobres et de systèmes fiables — du besoin métier à la mise en production.';
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Dorian Boille',
+	jobTitle: 'Ingénieur informatique',
+	description,
+	...(pageUrl ? { url: pageUrl } : {}),
+};
 ---
 
-<Layout title="Portfolio — Ingénieur Informatique">
+<Layout title="Dorian Boille — Ingénieur informatique" description={description} jsonLd={jsonLd}>
 	<main class="mx-auto max-w-6xl px-6 pb-24 pt-20 md:px-10 md:pt-28">
 		<header class="mx-auto max-w-2xl text-center">
 			<p class="text-sm font-medium tracking-wide text-zinc-400">Portfolio</p>
