@@ -48,13 +48,13 @@ const projects: ProjectPreview[] = await Promise.all(
 );
 
 const description =
-	'Lead ingénieur IA chez Diwio, à Nantes. Je porte la solution de comptage vélo, du modèle de vision jusqu’aux cartes électroniques.';
+	'Ingénieur informatique chez Diwio. Depuis 2022, je développe la solution de comptage de vélos par caméra : modèle de vision, déploiement sur cartes NVIDIA et cloud AWS.';
 const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
 	name: 'Dorian Boille',
-	jobTitle: 'Lead ingénieur IA',
+	jobTitle: 'Ingénieur informatique',
 	description,
 	email: 'dorian.boille63800@gmail.com',
 	worksFor: {
@@ -72,16 +72,16 @@ const jsonLd = {
 };
 ---
 
-<Layout title="Dorian Boille — Lead ingénieur IA" description={description} jsonLd={jsonLd}>
+<Layout title="Dorian Boille — Ingénieur informatique" description={description} jsonLd={jsonLd}>
 	<main class="mx-auto max-w-6xl px-6 pb-24 pt-20 md:px-10 md:pt-28">
 		<header class="mx-auto max-w-2xl text-center">
 			<p class="text-sm font-medium tracking-wide text-zinc-400">Portfolio</p>
 			<h1 class="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 md:text-5xl">
 				Dorian Boille
 			</h1>
-			<p class="mt-2 text-lg text-zinc-500 md:text-xl">Lead ingénieur IA · Diwio · Nantes</p>
-			<p class="mx-auto mt-8 max-w-lg text-balance text-base leading-relaxed text-zinc-600">
-				Je porte la solution de comptage vélo, du modèle de vision jusqu’aux cartes électroniques. Je l’ai bâtie seul, puis une V2 avec un second ingénieur IA.
+			<p class="mt-2 text-lg text-zinc-500 md:text-xl">Ingénieur informatique · Diwio · Nantes</p>
+			<p class="mx-auto mt-8 max-w-xl text-balance text-base leading-relaxed text-zinc-600">
+				Je suis Dorian, ingénieur informatique chez Diwio. Depuis 2022, je développe la solution de comptage de vélos par caméra : modèle de vision, déploiement sur cartes NVIDIA et cloud AWS. Je l’ai construite seul, puis faite évoluer avec un second ingénieur IA pour la V2. Je conçois aussi des cartes électroniques pour les parkings, comme l’armoire de commande et l’afficheur de places.
 			</p>
 			<nav class="mt-8 flex flex-col items-center gap-3 text-sm font-medium sm:flex-row sm:justify-center sm:gap-6" aria-label="Contact">
 				<a
