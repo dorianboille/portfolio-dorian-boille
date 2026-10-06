@@ -1,6 +1,7 @@
 ---
 title: Diwio Cam — comptage vélo par caméra
 date: 2022-09-01
+order: 1
 type: pro
 stack:
   - Python
@@ -10,7 +11,7 @@ stack:
 cover: ../../assets/projets/diwio-cam/cover.jpg
 coverAlt: Caméra dôme Diwio, utilisée pour le comptage vélo par intelligence artificielle et la vidéoprotection.
 gallery: []
-excerpt: Solution de comptage conçue pour Diwio (anciennement La Ruche à Vélos). Détection d’objets et estimation de pose en Python, sur cartes NVIDIA dans les parkings et dans le cloud AWS.
+excerpt: Solution de comptage dont je suis responsable chez Diwio (anciennement La Ruche à Vélos). Détection d’objets et estimation de pose en Python, sur cartes NVIDIA dans les parkings et dans le cloud AWS. Bâtie seul pendant environ deux ans, puis une V2 avec un second ingénieur IA.
 duration: En cours
 ---
 
@@ -18,16 +19,18 @@ duration: En cours
 
 Les parkings vélos collectifs étaient exploités sans mesure fiable de ce qui occupe vraiment une place. L’exploitant ne distinguait pas une place libre d’un vélo abandonné, et les cyclistes n’avaient pas le nombre de places disponibles au moment d’arriver.
 
-Diwio Cam est la solution de captage par caméra de [Diwio](https://solution.diwio.com/comptage-velo-diwio/), anciennement La Ruche à Vélos. Elle s’adresse aux parkings de grande capacité, là où un capteur par rack n’est pas le bon outil.
+Diwio Cam est la solution de captage par caméra de [Diwio](https://solution.diwio.com/comptage-velo-diwio/), anciennement La Ruche à Vélos. Elle s’adresse aux parkings de grande capacité, là où un capteur par rack n’est pas le bon outil. J’en suis responsable.
 
 ## La solution
 
-Le comptage est un pipeline de computer vision en Python : détection d’objets et estimation de pose. Il reconnaît les vélos, les distingue des personnes, et associe chaque vélo à une place.
+J’ai bâti le comptage de zéro : un pipeline de computer vision en Python, détection d’objets et estimation de pose. Il reconnaît les vélos, les distingue des personnes, et associe chaque vélo à une place.
 
-L’inférence tourne en edge, sur des cartes électroniques NVIDIA installées dans les parkings, et aussi dans le cloud sur AWS. Une même caméra assure le comptage et la vidéoprotection. L’exploitant suit l’occupation, la fréquentation et les vélos ventouses. Les cyclistes voient les places libres sur l’application, le site ou la signalétique.
+L’inférence tourne en edge, sur des cartes NVIDIA installées dans les parkings, et aussi dans le cloud sur AWS. Une même caméra assure le comptage et la vidéoprotection. L’exploitant suit l’occupation, la fréquentation et les vélos ventouses. Les cyclistes voient les places libres sur l’application, le site ou la signalétique.
+
+Je l’ai portée seul pendant environ deux ans. Pour la V2, nouveau matériel et nouveau code, un second ingénieur IA a été recruté et travaille avec moi.
 
 ## Déploiement
 
-Le développement a commencé en septembre 2022 et se poursuit. Le parc compte aujourd’hui plus de 200 cartes NVIDIA en Europe et 1 500 caméras, chez des collectivités et des opérateurs de transport, parmi lesquels la Métropole de Lyon, Île-de-France Mobilités, Montpellier et le Grand Montauban.
+J’ai commencé en septembre 2022, pendant mon stage de fin d’études, puis je l’ai poursuivi en CDI. Le parc compte aujourd’hui plus de 200 cartes NVIDIA en Europe et 1 500 caméras, chez des collectivités et des opérateurs de transport, parmi lesquels la Métropole de Lyon, Île-de-France Mobilités, Montpellier et le Grand Montauban.
 
-Diwio publie une détection supérieure à 99 % et plus de 96 % d’associations vélo–place réussies. Depuis le rapprochement d’octobre 2025, le produit est commercialisé sous le nom Diwio Cam.
+La détection dépasse 99 %, et plus de 96 % des associations vélo–place réussissent. Depuis le rapprochement d’octobre 2025, le produit est commercialisé sous le nom Diwio Cam.

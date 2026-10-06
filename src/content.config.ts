@@ -28,6 +28,8 @@ const projets = defineCollection({
 				.default([]),
 			/** Texte court pour cartes + en-tête de modale */
 			excerpt: z.string().min(1, 'excerpt requis'),
+			/** Ordre d’affichage sur l’accueil (1 = en premier) */
+			order: z.number().int().positive(),
 			/** Durée indicative (ex. « ~ 2 mois », « 3 semaines », « 40 h ») */
 			duration: z.string().min(1).optional(),
 		}),
