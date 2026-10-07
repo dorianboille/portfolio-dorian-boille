@@ -30,6 +30,11 @@ const projets = defineCollection({
 			excerpt: z.string().min(1, 'excerpt requis'),
 			/** Ordre d’affichage sur l’accueil (1 = en premier) */
 			order: z.number().int().positive(),
+			/**
+			 * `false` masque le projet du site en production (accueil, page détail, sitemap).
+			 * Il reste visible avec `npm run dev`.
+			 */
+			published: z.boolean().default(true),
 			/** Durée indicative (ex. « ~ 2 mois », « 3 semaines », « 40 h ») */
 			duration: z.string().min(1).optional(),
 		}),

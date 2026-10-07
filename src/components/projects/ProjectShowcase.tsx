@@ -28,6 +28,8 @@ export type ProjectPreview = {
 	/** Durée approximative affichée si renseignée */
 	duration?: string;
 	type: 'pro' | 'perso';
+	/** false = visible seulement en local, retiré du build de production */
+	published: boolean;
 	stack: string[];
 	cover: ProjectImageMeta;
 	gallery: ProjectImageMeta[];
@@ -110,6 +112,14 @@ export function ProjectShowcase({ projects }: { projects: ProjectPreview[] }) {
 								<DialogHeader className="space-y-3 text-left">
 									<div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
 										<TypeBadge type={p.type} />
+										{!p.published ? (
+											<Badge
+												className="rounded-md border-0 bg-amber-100/90 font-medium text-amber-950 hover:bg-amber-100"
+												variant="secondary"
+											>
+												Masqué en prod
+											</Badge>
+										) : null}
 										{p.duration ? (
 											<span className="inline-flex items-center gap-1 text-xs text-zinc-500">
 												<Clock className="size-3.5 shrink-0 text-zinc-400" aria-hidden />
@@ -164,6 +174,14 @@ export function ProjectShowcase({ projects }: { projects: ProjectPreview[] }) {
 					<div className="space-y-3 px-5 py-5">
 						<div className="flex flex-wrap items-center gap-x-3 gap-y-1">
 							<TypeBadge type={p.type} />
+							{!p.published ? (
+								<Badge
+									className="rounded-md border-0 bg-amber-100/90 font-medium text-amber-950 hover:bg-amber-100"
+									variant="secondary"
+								>
+									Masqué en prod
+								</Badge>
+							) : null}
 							<span className="text-xs text-zinc-400">
 								{new Date(p.date).toLocaleDateString('fr-FR', {
 									year: 'numeric',

@@ -1,10 +1,10 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { ProjectShowcase, type ProjectPreview } from '@/components/projects/ProjectShowcase';
+import { getVisibleProjects } from '@/lib/projects';
 
-const raw = await getCollection('projets');
+const raw = await getVisibleProjects();
 const sorted = [...raw].sort((a, b) => a.data.order - b.data.order);
 
 const projects: ProjectPreview[] = await Promise.all(
@@ -29,6 +29,7 @@ const projects: ProjectPreview[] = await Promise.all(
 			date: entry.data.date.toISOString(),
 			duration: entry.data.duration,
 			type: entry.data.type,
+			published: entry.data.published,
 			stack: entry.data.stack,
 			cover: {
 				src: cover.src,

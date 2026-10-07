@@ -1,17 +1,18 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { Image, getImage } from 'astro:assets';
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import { getVisibleProjects } from '@/lib/projects';
 
 export async function getStaticPaths() {
-	const entries = await getCollection('projets');
+	const entries = await getVisibleProjects();
 	return entries.map((entry) => ({
 		params: { id: entry.id },
 	}));
 }
 
 const { id } = Astro.params;
-const entries = await getCollection('projets');
+const entries = await getVisibleProjects();
 const entry = entries.find((e) => e.id === id);
 
 if (!entry) {
@@ -44,6 +45,13 @@ const jsonLd = {
 	jsonLd={jsonLd}
 >
 	<article class="mx-auto max-w-3xl px-6 pb-24 pt-16 md:px-10 md:pt-24">
+		{
+			!entry.data.published ? (
+				<p class="mb-8 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+					Masqué en production. Ce projet n’apparaît qu’avec <code>npm run dev</code>.
+				</p>
+			) : null
+		}
 		<nav class="mb-10 text-sm">
 			<a
 				href={`${import.meta.env.BASE_URL}`}
