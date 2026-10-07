@@ -8,6 +8,8 @@ interface Props {
 	ogImage?: string;
 	ogType?: 'website' | 'article';
 	jsonLd?: Record<string, unknown>;
+	/** Exclut la page des résultats de recherche. Elle reste accessible par URL directe. */
+	noIndex?: boolean;
 }
 
 const {
@@ -16,6 +18,7 @@ const {
 	ogImage,
 	ogType = 'website',
 	jsonLd,
+	noIndex = false,
 } = Astro.props;
 
 /** URL absolue uniquement si `site` est défini au build. */
@@ -36,6 +39,7 @@ const jsonLdHtml = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : un
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
+		{noIndex && <meta name="robots" content="noindex, nofollow" />}
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		{canonical && <link rel="canonical" href={canonical} />}

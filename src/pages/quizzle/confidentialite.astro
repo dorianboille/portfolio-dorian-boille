@@ -1,0 +1,70 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import DeveloperIdentity from '@/components/quizzle/DeveloperIdentity.astro';
+
+const description =
+	'Politique de confidentialité de l’application Quizzle (com.appotheose.quizzle), éditée par Dorian Boille sous le nom de développeur Appothéose.';
+---
+
+<Layout title="Politique de confidentialité — Quizzle" description={description} noIndex>
+	<main class="mx-auto max-w-2xl px-6 py-16 text-base leading-relaxed text-zinc-700 md:px-10 md:py-24">
+		<p class="text-sm font-medium tracking-wide text-zinc-400">Quizzle</p>
+		<h1 class="mt-3 text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl">Politique de confidentialité</h1>
+		<p class="mt-3 text-sm text-zinc-500">Dernière mise à jour : 7 octobre 2026</p>
+
+		<DeveloperIdentity />
+
+		<p class="mt-8">
+			Quizzle (« nous ») est une application de quiz et d’énigmes éditée par Dorian Boille sous le nom de développeur Appothéose. Cette politique explique quelles données sont traitées et pourquoi. « Nous » désigne Dorian Boille.
+		</p>
+
+		<h2 class="mt-10 text-lg font-semibold text-zinc-900">1. Données collectées</h2>
+		<ul class="mt-3 list-disc space-y-2 pl-5">
+			<li>Pseudo choisi, tranche d’âge et genre (saisis à l’onboarding)</li>
+			<li>Progression de jeu stockée sur l’appareil (Hive)</li>
+			<li>Statistiques de jeu (énigmes résolues, quiz) pour le classement</li>
+			<li>Identifiant de compte anonyme Firebase</li>
+			<li>Événements d’usage via Firebase Analytics</li>
+			<li>Données publicitaires (identifiants publicitaires) si vous y consentez, pour les utilisateurs de 12 ans et plus</li>
+		</ul>
+
+		<h2 class="mt-10 text-lg font-semibold text-zinc-900">2. Finalités</h2>
+		<ul class="mt-3 list-disc space-y-2 pl-5">
+			<li>Faire fonctionner le jeu et le classement</li>
+			<li>Comprendre l’usage de l’application</li>
+			<li>Diffuser des publicités récompensées et entre les parties (à partir de 12 ans)</li>
+			<li>Envoyer un rappel quotidien si vous l’activez</li>
+		</ul>
+
+		<h2 class="mt-10 text-lg font-semibold text-zinc-900">3. Base et conservation</h2>
+		<p class="mt-3">
+			Les données de jeu restent sur votre appareil. Le classement et l’analytique sont hébergés par Google Firebase (UE). Vous pouvez supprimer votre compte et vos données depuis Profil.
+		</p>
+
+		<h2 class="mt-10 text-lg font-semibold text-zinc-900">4. Publicités et consentement (EEE, Royaume-Uni, Suisse)</h2>
+		<p class="mt-3">
+			Un formulaire de consentement (Google UMP) est présenté lorsque la loi l’exige. Vous pouvez modifier vos choix dans Profil. Les 12-17 ans reçoivent un traitement publicitaire restreint.
+		</p>
+
+		<h2 class="mt-10 text-lg font-semibold text-zinc-900">5. Vos droits</h2>
+		<p class="mt-3">
+			Vous pouvez accéder, rectifier ou supprimer vos données via la suppression de compte dans l’application, ou nous contacter à l’adresse ci-dessous.
+		</p>
+
+		<h2 class="mt-10 text-lg font-semibold text-zinc-900">6. Contact</h2>
+		<p class="mt-3">
+			Application Quizzle (<span class="font-mono text-sm">com.appotheose.quizzle</span>), nom du développeur Appothéose, éditée par Dorian Boille.
+		</p>
+		<p class="mt-3">
+			<a class="text-zinc-900 underline underline-offset-4 hover:text-zinc-600" href="mailto:appotheose.officiel@gmail.com">
+				appotheose.officiel@gmail.com
+			</a>
+		</p>
+
+		<p class="mt-12 text-sm text-zinc-500">
+			<a class="underline underline-offset-4 hover:text-zinc-800" href={`${import.meta.env.BASE_URL}quizzle/conditions/`}>
+				Conditions d’utilisation
+			</a>
+		</p>
+	</main>
+</Layout>

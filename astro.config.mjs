@@ -24,7 +24,17 @@ export default defineConfig({
 	base,
 	trailingSlash: 'always',
 
-	integrations: [react(), mdx(), ...(site ? [sitemap()] : [])],
+	integrations: [
+		react(),
+		mdx(),
+		...(site
+			? [
+					sitemap({
+						filter: (page) => !page.includes('/quizzle/'),
+					}),
+				]
+			: []),
+	],
 
 	vite: {
 		plugins: [tailwindcss()],
